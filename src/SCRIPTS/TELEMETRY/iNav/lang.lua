@@ -1,6 +1,8 @@
 local modes, labels, data, FILE_PATH, env = ...
 local lang
 
+data.lang = "en" 
+/*
 if data.lang ~= "en" then
 	local tmp = FILE_PATH .. "lang_" .. data.lang .. ".luac"
 	local fh = io.open(tmp)
@@ -11,6 +13,7 @@ if data.lang ~= "en" then
 	end
 end
 
+
 if data.voice ~= "en" then
 	local fh = io.open(FILE_PATH .. data.voice .. "/on.wav")
 	if fh ~= nil then
@@ -19,5 +22,5 @@ if data.voice ~= "en" then
 		data.voice = "en"
 	end
 end
-
+*/
 return lang
