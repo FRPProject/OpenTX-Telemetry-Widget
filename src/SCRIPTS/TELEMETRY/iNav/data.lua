@@ -12,6 +12,7 @@ end
 
 
 local tx = "xl" -- string.sub(r, 0, 2)
+string.sub(r, 0, 3) = "t12"
 /* 
 if HORUS or string.sub(r, 0, 3) == "x9e" or string.sub(r, 0, 4) == "x9li" or string.sub(r, 0, 6) == "x9d+20" then
 	tx = "x7"
