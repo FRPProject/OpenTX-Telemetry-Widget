@@ -10,12 +10,17 @@ local function getTelemetryUnit(n)
    return (field and field.unit <= 10) and field.unit or 0
 end
 
-local tx = string.sub(r, 0, 2)
+
+local tx = "xl" -- string.sub(r, 0, 2)
+/* 
 if HORUS or string.sub(r, 0, 3) == "x9e" or string.sub(r, 0, 4) == "x9li" or string.sub(r, 0, 6) == "x9d+20" then
 	tx = "x7"
 end
-local MENU
+*/
 
+local MENU
+MENU = EVT_VIRTUAL_MENU_LONG
+/*
 if tx == "xl" then
    MENU = EVT_SHIFT_BREAK
 elseif HORUS then
@@ -31,6 +36,7 @@ elseif string.sub(r,0,6) == "lr3pro" then
 else
    MENU = EVT_MENU_BREAK
 end
+*/
 
 local general = getGeneralSettings()
 local distSensor = getTelemetryId("Dist") > -1 and "Dist" or (getTelemetryId("0420") > -1 and "0420" or "0007")
