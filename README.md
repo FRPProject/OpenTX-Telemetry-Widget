@@ -1,5 +1,5 @@
 ## INAV Lua Telemetry Flight Status for FS-i6x
-<br>
+
 <table>
 <tr><td>
 
