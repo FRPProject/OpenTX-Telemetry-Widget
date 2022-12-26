@@ -41,6 +41,7 @@ data.lang = "ro"
 data.voice = "ro"
 ]]
 
+data.lang = "en" 
 if data.lang ~= "en" or data.voice ~= "en" then
 	lang = loadScript(FILE_PATH .. "lang" .. ext, env)(modes, labels, data, FILE_PATH, env)
 	collectgarbage()
@@ -56,11 +57,13 @@ collectgarbage()
 local title, gpsDegMin, hdopGraph, icons, rect = loadScript(FILE_PATH .. "func_" .. (HORUS and "h" or "t") .. ext, env)(config, data, modes, dir, SMLCD, FILE_PATH, text, line, rect, fill, frmt, options)
 collectgarbage()
 
-local function playAudio(f, a)
+/*
+local function -- playAudio(f, a)
 	if config[4].v == 2 or (config[4].v == 1 and a ~= nil) then
 		playFile(FILE_PATH .. data.voice .. "/" .. f .. ".wav")
 	end
 end
+*/
 
 local function calcBearing(gps1, gps2)
 	--[[ Spherical-Earth math: More accurate if the Earth was a sphere, but obviously it's not
@@ -147,6 +150,7 @@ function inav.background()
 	data.txBatt = getValue(data.txBatt_id)
 	data.throttle = getValue(data.thr_id)
 
+	/*
 	-- Log playback
 	if data.doLogs then
 		-- Checking if it's really armed
@@ -166,6 +170,7 @@ function inav.background()
 			end
 		end
 	end
+    */
 
 	if data.rssi > 0 then
 		-- Dist doesn't have a known unit so the transmitter doesn't auto-convert
@@ -246,6 +251,7 @@ function inav.background()
 		end
 	end
 
+	
 	-- Voice alerts
 	local vibrate = false
 	local beep = false
@@ -262,7 +268,7 @@ function inav.background()
 		if not data.gpsAltBase and data.gpsFix then
 			data.gpsAltBase = data.gpsAlt
 		end
-		playAudio("engarm", 1)
+		-- playAudio("engarm", 1)
 	elseif not data.armed and armedPrev then -- Engines disarmed
 		if data.distanceLast <= data.distRef then
 			data.headingRef = -1
@@ -270,28 +276,28 @@ function inav.background()
 			data.showDir = true
 			data.gpsAltBase = false
 		end
-		playAudio("engdrm", 1)
+		-- -- playAudio("engdrm", 1)
 	end
 	if data.gpsFix ~= data.gpsFixPrev and modeIdPrev ~= 12 and data.modeId ~= 12 then -- GPS status change
-		playAudio("gps", not data.gpsFix and 1 or nil)
-		playAudio(data.gpsFix and "good" or "lost", not data.gpsFix and 1 or nil)
+	--	-- playAudio("gps", not data.gpsFix and 1 or nil)
+	--	-- playAudio(data.gpsFix and "good" or "lost", not data.gpsFix and 1 or nil)
 	end
 	if modeIdPrev ~= data.modeId then -- New flight mode
 		if data.armed and modes[data.modeId].w ~= nil then
-			playAudio(modes[data.modeId].w, modes[data.modeId].f > 0 and 1 or nil)
+			-- -- playAudio(modes[data.modeId].w, modes[data.modeId].f > 0 and 1 or nil)
 		elseif not data.armed and data.modeId == 6 and (modeIdPrev == 5 or modeIdPrev == 12) then
-			playAudio(modes[data.modeId].w)
+			-- -- playAudio(modes[data.modeId].w)
 		end
 	elseif preArmMode ~= false and data.preArmModePrev ~= preArmMode then
-		playAudio(modes[preArmMode].w)
+		-- -- playAudio(modes[preArmMode].w)
 	end
 	data.hdop = math.floor(data.satellites * 0.01) % 10
 	if data.headingHold ~= headingHoldPrev then -- Heading hold status change
-		playAudio("hedhld")
-		playAudio(data.headingHold and "active" or "off")
+		-- playAudio("hedhld")
+		-- playAudio(data.headingHold and "active" or "off")
 	end
 	if data.headFree ~= headFreePrev then -- Head free status change
-		playAudio(data.headFree and "hfact" or "hfoff", 1)
+		-- playAudio(data.headFree and "hfact" or "hfoff", 1)
 	end
 	if data.armed then
 		data.distanceLast = data.distance
@@ -301,18 +307,18 @@ function inav.background()
 			data.timer = model.getTimer(config[13].v - 2)["value"]
 		end
 		if data.altHold ~= altHoldPrev then -- Alt hold status change
-			playAudio("althld")
-			playAudio(data.altHold and "active" or "off")
+			-- playAudio("althld")
+			-- playAudio(data.altHold and "active" or "off")
 		end
 		if homeReset and not data.homeResetPrev then -- Home reset
-			playAudio("homrst")
+			-- playAudio("homrst")
 			data.gpsHome = false
 			data.headingRef = data.heading
 		end
 		if data.altitude + 0.5 >= config[6].v and config[12].v > 0 then -- Altitude alert
 			if getTime() > data.altNextPlay then
 				if config[4].v > 0 then
-					playNumber(data.altitude + 0.5, data.alt_unit)
+					-- playNumber(data.altitude + 0.5, data.alt_unit)
 				end
 				data.altNextPlay = getTime() + 1000
 			else
@@ -327,7 +333,7 @@ function inav.background()
 					tmp = math.floor(data.altitude / steps[config[24].v] + 0.5) * steps[config[24].v]
 				end
 				if tmp > 0 and getTime() > data.altNextPlay then
-					playNumber(tmp, data.alt_unit)
+					-- playNumber(tmp, data.alt_unit)
 					data.altLastAlt = tmp
 					data.altNextPlay = getTime() + 500
 				end
@@ -335,22 +341,22 @@ function inav.background()
 		end
 		if data.showCurr and config[23].v == 0 and data.battPercentPlayed > data.fuel and config[11].v == 2 and config[4].v == 2 and getTime() > data.battNextPlay then -- Fuel notifications
 			if data.fuel >= config[17].v and data.fuel <= config[18].v and data.fuel > config[17].v then -- Fuel low
-				playAudio("batlow")
-				playNumber(data.fuel, 13)
+				-- playAudio("batlow")
+				-- playNumber(data.fuel, 13)
 				data.battPercentPlayed = data.fuel
 				data.battNextPlay = getTime() + 500
 			elseif data.fuel % 10 == 0 and data.fuel < 100 and data.fuel > config[18].v then -- Fuel 10% notification
-				playAudio("battry")
-				playNumber(data.fuel, 13)
+				-- playAudio("battry")
+				-- playNumber(data.fuel, 13)
 				data.battPercentPlayed = data.fuel
 				data.battNextPlay = getTime() + 500
 			end
 		end
 		if ((data.showCurr and config[23].v == 0 and data.fuel <= config[17].v) or data.cell < config[3].v) and config[11].v > 0 then -- Voltage/fuel critial
 			if getTime() > data.battNextPlay then
-				playAudio("batcrt", 1)
+				-- playAudio("batcrt", 1)
 				if data.showCurr and config[23].v == 0 and data.fuel <= config[17].v and data.battPercentPlayed > data.fuel and config[4].v > 0 then
-					playNumber(data.fuel, 13)
+					-- playNumber(data.fuel, 13)
 					data.battPercentPlayed = data.fuel
 				end
 				data.battNextPlay = getTime() + 1000
@@ -360,7 +366,7 @@ function inav.background()
 			end
 			data.battLow = true
 		elseif data.cell < config[2].v and config[11].v == 2 and not data.battLow then -- Voltage notification
-			playAudio("batlow")
+			-- playAudio("batlow")
 			data.battLow = true
 		end
 		if (data.headFree and config[9].v == 1) or modes[data.modeId].f ~= 0 then
@@ -410,7 +416,7 @@ function inav.background()
 		-- Initialize variables on flight reset (uses timer3)
 		tmp = model.getTimer(2)
 		if tmp.value == 0 then
-		   loadScript(FILE_PATH .. "load_" .. (data.etx and "e" or  "o") .. ext, env)(config, data, FILE_PATH)
+		    loadScript(FILE_PATH .. "load_" .. (data.etx and "e" or  "o") .. ext, env)(config, data, FILE_PATH)
 			loadScript(FILE_PATH .. "reset" .. ext, env)(data)
 			tmp.value = 3600
 			model.setTimer(2, tmp)
@@ -501,15 +507,19 @@ function inav.run(event)
 		end
 		tmp = config[30].v
 		view(data, config, units, lang, event, gpsDegMin, getTelemetryId, getTelemetryUnit, SMLCD, HORUS, text, rect, fill, frmt, env)
+		/*
 		if HORUS then
 		   data.menu(tmp)
 		end
+		
 		-- Exit menu or select log for playback, save config settings
 		if data.configSelect == 0 and (event == EVT_EXIT_BREAK or (event == EVT_ENTER_BREAK and data.configStatus == 34 and config[34].x > -1 and not data.armed)) then
 			view = nil
 			collectgarbage()
 			loadScript(FILE_PATH .. "save" .. ext, env)(config, data, frmt, FILE_PATH)
 		end
+		*/
+		
 	else
 	   -- User input
 --	   if event ~= 0 then print("DBG: INPUT "..event)  end
