@@ -42,10 +42,12 @@ data.voice = "ro"
 ]]
 
 data.lang = "en" 
+/*
 if data.lang ~= "en" or data.voice ~= "en" then
 	lang = loadScript(FILE_PATH .. "lang" .. ext, env)(modes, labels, data, FILE_PATH, env)
 	collectgarbage()
 end
+*/
 
 loadScript(FILE_PATH .. "reset" .. ext, env)(data)
 collectgarbage()
@@ -87,7 +89,7 @@ local function calcDir(r1, r2, r3, x, y, r)
 end
 
 local function endLog()
-	playLog = nil
+	-- playLog = nil
 	collectgarbage()
 	loadScript(FILE_PATH .. "reset" .. ext, env)(data)
 end
