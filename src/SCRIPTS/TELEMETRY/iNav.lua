@@ -1,5 +1,5 @@
--- Lua Telemetry Flight Status for INAV/Taranis
--- Docs: https://github.com/iNavFlight/OpenTX-Telemetry-Widget
+-- Lua Telemetry Flight Status for FS-i6x
+-- Docs: Based on https://github.com/iNavFlight/OpenTX-Telemetry-Widget
 
 local zone, options = ...
 local VERSION = "0.0.1"
