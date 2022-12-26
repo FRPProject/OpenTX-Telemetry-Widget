@@ -1,4 +1,5 @@
 ## INAV Lua Telemetry Flight Status for FS-i6x
+# Based on https://github.com/iNavFlight/OpenTX-Telemetry-Widget
 
 <table>
 <tr><td>

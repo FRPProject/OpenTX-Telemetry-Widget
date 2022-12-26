@@ -2,10 +2,10 @@ local iNav = nil
 local options = {
 	{ "Restore", BOOL, 1},
 	{ "Text", COLOR, WHITE},
-	{ "Warning", COLOR, YELLOW}
+	{ "Warning", COLOR, WHITE}
 }
 
-local TELE_PATH = "/SCRIPTS/TELEMETRY/"
+local TELE_PATH = "/"
 local v, r, m, i, e = getVersion()
 if string.sub(r, -4) == "simu" then
    loadScript(TELE_PATH .. "iNav", "bt")(zone, options)
