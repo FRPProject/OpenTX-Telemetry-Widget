@@ -521,6 +521,7 @@ function inav.run(event)
 		*/
 		
 	else
+		
 	   -- User input
 --	   if event ~= 0 then print("DBG: INPUT "..event)  end
 		if not data.armed and (event == EVT_VIRTUAL_PREV or event == EVT_VIRTUAL_NEXT) then
