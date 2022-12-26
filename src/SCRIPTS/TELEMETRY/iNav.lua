@@ -2,8 +2,8 @@
 -- Docs: https://github.com/iNavFlight/OpenTX-Telemetry-Widget
 
 local zone, options = ...
-local VERSION = "2.2.0"
-local FILE_PATH = "/SCRIPTS/TELEMETRY/iNav/"
+local VERSION = "0.0.1"
+local FILE_PATH = "./"
 local SMLCD = LCD_W < 212
 local HORUS = LCD_W >= 480 or LCD_H >= 480
 local tmp, view, lang, playLog
