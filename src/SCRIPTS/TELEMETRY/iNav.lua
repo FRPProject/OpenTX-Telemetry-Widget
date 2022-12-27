@@ -479,6 +479,8 @@ function inav.run(event)
 	end
 
 	-- Clear screen
+	lcd.clear()
+	/*
 	if HORUS then
 	   -- Display error if Horus widget isn't full screen
 		if data.nfs ~= nil then
@@ -490,7 +492,7 @@ function inav.run(event)
 	else
 		lcd.clear()
 	end
-
+*/
 	-- Display system error
 	--[[
 	if data.msg then
@@ -548,7 +550,7 @@ function inav.run(event)
 		if data.v ~= config[25].v then
 			view = nil
 			collectgarbage()
-			view = loadScript(FILE_PATH .. (HORUS and (data.nv and "nirvana" or "horus") or (config[25].v == 0 and "view" or (config[25].v == 1 and "pilot" or (config[25].v == 2 and "radar" or "alt")))) .. ext, env)()
+			view = loadScript(FILE_PATH .. (config[25].v == 0 and "view" (config[25].v == 2 and "radar" )))) .. ext, env)()
 			data.v = config[25].v
 		end
 		view(data, config, modes, dir, units, labels, gpsDegMin, hdopGraph, icons, calcBearing, calcDir, VERSION, SMLCD, FILE_PATH, text, line, rect, fill, frmt)
