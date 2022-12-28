@@ -39,9 +39,9 @@ else
 end
 */
 
-local general = getGeneralSettings()
-local distSensor = getTelemetryId("Dist") > -1 and "Dist" or (getTelemetryId("0420") > -1 and "0420" or "0007")
-local data = {
+ general = getGeneralSettings()
+ distSensor = getTelemetryId("Dist") > -1 and "Dist" or (getTelemetryId("0420") > -1 and "0420" or "0007")
+ data = {
 	txBattMin = general.battMin,
 	txBattMax = general.battMax,
 	lang = string.lower(general.language),
